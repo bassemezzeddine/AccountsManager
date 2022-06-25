@@ -4,13 +4,6 @@
         <name>AccountsManager.Services.Core.API</name>
     </assembly>
     <members>
-        <member name="M:AccountsManager.Controllers.AccountController.CreateCustomer(AccountsManager.Services.Core.Service.Models.Requests.CreateCustomerRequest)">
-            <summary>
-            Create new customer
-            </summary>
-            <param name="request">CreateCustomerRequest request</param>
-            <returns>The created customer ID</returns>
-        </member>
         <member name="M:AccountsManager.Controllers.AccountController.GetCustomers(AccountsManager.Services.Core.Service.Models.Requests.BaseRequest)">
             <summary>
             Get list of customers
@@ -18,12 +11,33 @@
             <param name="request">BaseRequest request</param>
             <returns>The list of customers</returns>
         </member>
+        <member name="M:AccountsManager.Controllers.AccountController.CreateCustomer(AccountsManager.Services.Core.Service.Models.Requests.CreateCustomerRequest)">
+            <summary>
+            Create new customer
+            </summary>
+            <param name="request">CreateCustomerRequest request</param>
+            <returns>The created customer ID</returns>
+        </member>
         <member name="M:AccountsManager.Controllers.AccountController.GetCustomerInfo(AccountsManager.Services.Core.Service.Models.Requests.GetCustomerInfoRequest)">
             <summary>
             Get customer info
             </summary>
             <param name="request">GetCustomerInfoRequest request</param>
             <returns>The customer info</returns>
+        </member>
+        <member name="M:AccountsManager.Controllers.AccountController.CreateAccount(AccountsManager.Services.Core.Service.Models.Requests.CreateAccountRequest)">
+            <summary>
+            Create new customer account
+            </summary>
+            <param name="request">CreateAccountRequest request</param>
+            <returns>The created account number</returns>
+        </member>
+        <member name="M:AccountsManager.Controllers.AccountController.AddAccountTransaction(AccountsManager.Services.Core.Service.Models.Requests.AddAccountTransactionRequest)">
+            <summary>
+            Add new account transaction
+            </summary>
+            <param name="request">AddAccountTransactionRequest request</param>
+            <returns>The created transaction reference</returns>
         </member>
     </members>
 </doc>

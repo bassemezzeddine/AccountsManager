@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 
 namespace AccountsManager.Services.Core.Service.Models.Requests
 {
-    public class CreateAccountRequest
+    public class AddAccountTransactionRequest
     {
         public string CustomerId { get; set; }
-        public string AccountDescription { get; set; }
-        public decimal InitialCredit { get; set; }
+        public string AccountNumber { get; set; }
+        public string TransactionDescription { get; set; }
+        public decimal Amount { get; set; }
     }
 }

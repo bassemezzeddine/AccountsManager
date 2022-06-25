@@ -149,10 +149,10 @@ namespace AccountsManager.Services.Core.API
                             new Transaction
                             {
                                 Reference = Guid.NewGuid().ToString(),
-                                Amount = 95.52M,
-                                OpeningBalance = 0.00M,
-                                ClosingBalance = 95.52M,
-                                Description = "Transaction 01",
+                                Amount = -1.10M,
+                                OpeningBalance = 95.52M,
+                                ClosingBalance = 94.42M,
+                                Description = "Transaction 02",
                                 StatusId = (int)StatusEnum.Completed,
                                 CreatedBy = userId,
                                 CreatedOn = DateTime.UtcNow
@@ -160,10 +160,10 @@ namespace AccountsManager.Services.Core.API
                             new Transaction
                             {
                                 Reference = Guid.NewGuid().ToString(),
-                                Amount = -1.10M,
-                                OpeningBalance = 95.52M,
-                                ClosingBalance = 94.42M,
-                                Description = "Transaction 02",
+                                Amount = 95.52M,
+                                OpeningBalance = 0.00M,
+                                ClosingBalance = 95.52M,
+                                Description = "Transaction 01",
                                 StatusId = (int)StatusEnum.Completed,
                                 CreatedBy = userId,
                                 CreatedOn = DateTime.UtcNow
