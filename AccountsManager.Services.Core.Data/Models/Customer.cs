@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace AccountsManager.Services.Core.Data.Models
@@ -6,6 +7,7 @@ namespace AccountsManager.Services.Core.Data.Models
     public class Customer : BaseModel
     {
         public int Id { get; set; }
+        public Guid Reference { get; set; }
         [Required]
         public string Name { get; set; }
         [Required]

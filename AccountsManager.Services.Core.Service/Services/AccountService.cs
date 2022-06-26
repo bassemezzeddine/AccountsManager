@@ -20,19 +20,16 @@ namespace AccountsManager.Services.Core.Service.Services
         private readonly AccountRepo _accountRepo;
         private readonly IRequestInfoService _requestInfoService;
         private readonly ITransactionService _transactionService;
-        private readonly IDataProtector _dataProtector;
 
         public AccountService(IUnitOfWork unitOfWork,
                               IRequestInfoService requestInfoService,
-                              ITransactionService transactionService,
-                              IDataProtector dataProtector)
+                              ITransactionService transactionService)
         {
             _unitOfWork = unitOfWork;
             _customerRepo = _unitOfWork.CustomerRepo;
             _accountRepo = _unitOfWork.AccountRepo;
             _requestInfoService = requestInfoService;
             _transactionService = transactionService;
-            _dataProtector = dataProtector;
         }
         #endregion
 
@@ -40,19 +37,19 @@ namespace AccountsManager.Services.Core.Service.Services
         public CreateAccountResponse CreateAccount(string customerId, string accountDescription, decimal initialCredit)
         {
             var accountNumber = string.Empty;
-            int id = Convert.ToInt32(_dataProtector.Unprotect(customerId));
+            var id = new Guid(customerId);
             var customer = _customerRepo.Get(1, 1,
-                                             x => x.Id == id).FirstOrDefault();
+                                             x => x.Reference == id).FirstOrDefault();
 
-            var accountsCount = _accountRepo.GetTotalCount(x => x.CustomerId == id);
+            var accountsCount = _accountRepo.GetTotalCount(x => x.CustomerId == customer.Id);
 
             if (customer == null)
                 return null;
 
-            accountNumber = GenerateAccountNumber(id, accountsCount);
+            accountNumber = GenerateAccountNumber(customer.Id, accountsCount);
             var account = new Account
             {
-                CustomerId = id,
+                CustomerId = customer.Id,
                 AccountNumber = accountNumber,
                 Balance = initialCredit,
                 Description = accountDescription,
@@ -77,10 +74,10 @@ namespace AccountsManager.Services.Core.Service.Services
         {
             if (amount == 0)
                 return null;
-            int id = Convert.ToInt32(_dataProtector.Unprotect(customerId));
+            var id = new Guid(customerId);
             var account = _accountRepo.Get(1, 1,
                                            x => x.StatusId == (int)StatusEnum.Active &&
-                                                x.CustomerId == id &&
+                                                x.Customer.Reference == id &&
                                                 x.AccountNumber == accountNumber).FirstOrDefault();
 
             if (account == null)

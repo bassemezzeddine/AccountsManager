@@ -10,7 +10,6 @@ using AccountsManager.Services.Core.Service.Models.Mapping;
 using AccountsManager.Services.Core.Service.Services;
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -48,13 +47,9 @@ namespace AccountsManager.Services.Core.API
             services.AddTransient<IRequestInfoService, RequestInfoService>();
 
             // AUTOMAPPER CONFIGURATION
-            var dataProtectionProvider = DataProtectionProvider.Create("CoreAPI");
-            var protector = dataProtectionProvider.CreateProtector("AccountsManager.Services.Core.API");
-            services.AddSingleton(protector);
-
             var mapperConfig = new MapperConfiguration(mc =>
             {
-                mc.AddProfile(new MapperProfile(protector));
+                mc.AddProfile(new MapperProfile());
             });
             IMapper mapper = mapperConfig.CreateMapper();
             services.AddSingleton(mapper);
@@ -126,11 +121,12 @@ namespace AccountsManager.Services.Core.API
             context.Status.AddRange(statuses);
             context.SaveChanges();
 
-            var userId = Guid.NewGuid();
+            var userId = new Guid("d81d32ba-841e-4c9c-ba9c-50f532845b4f");
             var customer = new Customer
             {
                 Name = "Bassem",
                 Surname = "Ezzeddine",
+                Reference = new Guid("442BE8D3-CF31-4AB6-A52E-9ECF97107AC1"),
                 StatusId = (int)StatusEnum.Active,
                 CreatedBy = userId,
                 CreatedOn = DateTime.UtcNow,

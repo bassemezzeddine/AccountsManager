@@ -1,24 +1,19 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.DataProtection;
 using AccountsManager.Services.Core.Data.Models;
 
 namespace AccountsManager.Services.Core.Service.Models.Mapping
 {
     public class MapperProfile : Profile
     {
-        private readonly IDataProtector _dataProtector;
-
-        public MapperProfile(IDataProtector dataProtector)
+        public MapperProfile()
         {
-            _dataProtector = dataProtector;
-
             CreateMap<Customer, CustomerListDTO> ()
-               .ForMember(dest => dest.CustomerId, opt => opt.MapFrom(src => _dataProtector.Protect(src.Id.ToString())))
+               .ForMember(dest => dest.CustomerId, opt => opt.MapFrom(src => src.Reference.ToString()))
                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
                .ForMember(dest => dest.Surname, opt => opt.MapFrom(src => src.Surname));
 
             CreateMap<Customer, CustomerDTO>()
-               .ForMember(dest => dest.CustomerId, opt => opt.MapFrom(src => _dataProtector.Protect(src.Id.ToString())))
+               .ForMember(dest => dest.CustomerId, opt => opt.MapFrom(src => src.Reference.ToString()))
                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
                .ForMember(dest => dest.Surname, opt => opt.MapFrom(src => src.Surname))
                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status.Name))

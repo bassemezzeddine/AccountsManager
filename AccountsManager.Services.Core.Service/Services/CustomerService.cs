@@ -19,17 +19,14 @@ namespace AccountsManager.Services.Core.Service.Services
         private readonly IMapper _mapper;
         private readonly CustomerRepo _customerRepo;
         private readonly IRequestInfoService _requestInfoService;
-        private readonly IDataProtector _dataProtector;
 
         public CustomerService(IUnitOfWork unitOfWork,
                                IMapper mapper,
-                               IRequestInfoService requestInfoService,
-                               IDataProtector dataProtector)
+                               IRequestInfoService requestInfoService)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _requestInfoService = requestInfoService;
-            _dataProtector = dataProtector;
             _customerRepo = _unitOfWork.CustomerRepo;
         }
         #endregion
@@ -39,6 +36,7 @@ namespace AccountsManager.Services.Core.Service.Services
         {
             var customer = new Customer
             {
+                Reference = Guid.NewGuid(),
                 Name = name,
                 Surname = surname,
                 StatusId = (int)StatusEnum.Active
@@ -48,7 +46,7 @@ namespace AccountsManager.Services.Core.Service.Services
 
             return new CreateCustomerResponse
             {
-                CustomerId = _dataProtector.Protect(customer.Id.ToString())
+                CustomerId = customer.Reference.ToString()
             };
         }
 
@@ -72,9 +70,9 @@ namespace AccountsManager.Services.Core.Service.Services
 
         public GetCustomerInfoResponse GetCustomerInfo(string customerId)
         {
-            int id = Convert.ToInt32(_dataProtector.Unprotect(customerId));
+            var id = new Guid(customerId);
             var customer = _customerRepo.Get(1, 1, 
-                                             x => x.Id == id,
+                                             x => x.Reference == id,
                                              includeProperties: "Status,Accounts,Accounts.Transactions").FirstOrDefault();
 
             if (customer == null)
