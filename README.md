@@ -16,6 +16,7 @@
 - The design pattern implemented for Data layer is Repository Pattern with UnitOfWork Generic Repository.
 - On startup, the database initial data is created. One test customer is added (Customer ID: "442be8d3-cf31-4ab6-a52e-9ecf97107ac1").
 - No security layer has been implemented.
+- Total time spent: 10 hours.
 
 
 ## Technical Stack
