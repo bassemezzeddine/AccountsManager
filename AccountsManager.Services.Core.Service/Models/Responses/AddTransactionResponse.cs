@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AccountsManager.Services.Core.Data.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,6 @@ namespace AccountsManager.Services.Core.Service.Models.Responses
 {
     public class AddTransactionResponse
     {
-        public string TransactionReference { get; set; }
+        public TransactionDTO Transaction { get; set; }
     }
 }

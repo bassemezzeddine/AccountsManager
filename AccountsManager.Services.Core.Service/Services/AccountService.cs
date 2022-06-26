@@ -1,14 +1,12 @@
-﻿using AutoMapper;
-using AccountsManager.Services.Core.Service.Contracts;
+﻿using AccountsManager.Services.Core.Service.Contracts;
 using AccountsManager.Services.Core.Data.Contracts;
 using AccountsManager.Services.Core.Data.Repositories;
 using AccountsManager.Services.Core.Data.Models;
-using System.Collections.Generic;
 using System.Linq;
-using Microsoft.AspNetCore.DataProtection;
 using System;
 using AccountsManager.Services.Core.Data.Enums;
 using AccountsManager.Services.Core.Service.Models.Responses;
+using AutoMapper;
 
 namespace AccountsManager.Services.Core.Service.Services
 {
@@ -18,14 +16,17 @@ namespace AccountsManager.Services.Core.Service.Services
         private readonly IUnitOfWork _unitOfWork;
         private readonly CustomerRepo _customerRepo;
         private readonly AccountRepo _accountRepo;
+        private readonly IMapper _mapper;
         private readonly IRequestInfoService _requestInfoService;
         private readonly ITransactionService _transactionService;
 
         public AccountService(IUnitOfWork unitOfWork,
+                              IMapper mapper,
                               IRequestInfoService requestInfoService,
                               ITransactionService transactionService)
         {
             _unitOfWork = unitOfWork;
+            _mapper = mapper;
             _customerRepo = _unitOfWork.CustomerRepo;
             _accountRepo = _unitOfWork.AccountRepo;
             _requestInfoService = requestInfoService;
@@ -41,10 +42,10 @@ namespace AccountsManager.Services.Core.Service.Services
             var customer = _customerRepo.Get(1, 1,
                                              x => x.Reference == id).FirstOrDefault();
 
-            var accountsCount = _accountRepo.GetTotalCount(x => x.CustomerId == customer.Id);
-
             if (customer == null)
                 return null;
+
+            var accountsCount = _accountRepo.GetTotalCount(x => x.CustomerId == customer.Id);
 
             accountNumber = GenerateAccountNumber(customer.Id, accountsCount);
             var account = new Account
@@ -66,7 +67,7 @@ namespace AccountsManager.Services.Core.Service.Services
             _unitOfWork.Save();
             return new CreateAccountResponse
             {
-                AccountNumber = accountNumber
+                Account = _mapper.Map<AccountDTO>(account)
             };
         }
 
@@ -92,7 +93,7 @@ namespace AccountsManager.Services.Core.Service.Services
             _unitOfWork.Save();
             return new AddTransactionResponse
             {
-                TransactionReference = transaction.Reference
+                Transaction = _mapper.Map<TransactionDTO>(transaction)
             };
         }
 

@@ -126,7 +126,7 @@ namespace AccountsManager.Services.Core.API
             {
                 Name = "Bassem",
                 Surname = "Ezzeddine",
-                Reference = new Guid("442BE8D3-CF31-4AB6-A52E-9ECF97107AC1"),
+                Reference = new Guid("442be8d3-cf31-4ab6-a52e-9ecf97107ac1"),
                 StatusId = (int)StatusEnum.Active,
                 CreatedBy = userId,
                 CreatedOn = DateTime.UtcNow,

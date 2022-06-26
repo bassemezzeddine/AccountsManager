@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using System.Linq;
 using AccountsManager.Services.Core.Service.Models.Responses;
 using AccountsManager.Services.Core.Data.Enums;
-using Microsoft.AspNetCore.DataProtection;
 using System;
 
 namespace AccountsManager.Services.Core.Service.Services
